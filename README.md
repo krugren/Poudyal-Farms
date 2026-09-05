@@ -233,7 +233,7 @@ npm run dev
 
 ## 👤 Author
 
-**Kruththik** — Freelance Full-Stack Developer
+**Kruththik** — AI assisted Full-Stack Developer
 > Built solo from design to deployment for a real hospitality client in Sikkim, India.
 
 ---
