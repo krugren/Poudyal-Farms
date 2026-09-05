@@ -1,20 +1,33 @@
-# 🌿 Poudhyal Farms — Full-Stack Farmstay Website
+# 🌿 Poudyal Farms — Full-Stack Farmstay Website
 
-> A production-ready, full-stack hospitality website built for a real organic farmstay in Gangtok, Sikkim. Built end-to-end: database schema, REST API, admin dashboard, booking system, and a premium animated frontend — all as a solo freelance project.
+> A full-stack hospitality website developed as a freelance/client project for an organic farmstay in Gangtok, Sikkim. The project covers a complete frontend, backend API, admin dashboard, booking workflow, review management, and SEO foundations. **The project was not deployed to production after the client decided not to proceed.**
 
-**Live client site** · [poudhyalfarms.com](https://poudhyalfarms.com) &nbsp;|&nbsp; **Airbnb listing** · [View Property](https://www.airbnb.co.in/rooms/1384121204022057341)
+**Project status:** Functional prototype — client project, not live  
+**Development approach:** Independently directed using an AI-assisted workflow (planning, architecture, and iteration with ChatGPT and Claude models)
+
+---
+
+## 🎯 What This Demonstrates
+
+This isn't a tutorial project or a clone. It was built for a real client with real requirements:
+
+- Designed the data model from scratch for a hospitality business context
+- Made architectural decisions (SSR vs client rendering, JWT vs session, SSE vs WebSockets)
+- Built a full admin system a non-technical client could actually use
+- Iterated on UX and performance based on real feedback
+- Managed the full scope solo — from DB schema to CSS animations
 
 ---
 
 ## ✨ What Was Built
 
-A complete web platform replacing manual WhatsApp/phone bookings with a self-service system, featuring:
+A complete web platform designed to replace manual WhatsApp/phone bookings:
 
 - **Guest-facing website** — animated homepage, photo gallery with lightbox, booking form, reviews, contact
-- **Admin dashboard** — real-time reservation management, enquiry inbox, content editor, gallery uploader
-- **REST API** — 20+ endpoints covering reservations, feedback, gallery, content, auth, and admin operations
-- **Database + ORM** — Prisma ORM with SQLite (dev) / PostgreSQL-ready schema
-- **SEO** — JSON-LD structured data (LodgingBusiness schema), sitemap, robots.txt, canonical URLs, Open Graph
+- **Admin dashboard** — reservation management, enquiry inbox, content editor, gallery uploader
+- **REST API** — 20+ endpoints: reservations, feedback, gallery, content, auth, admin operations
+- **Database + ORM** — Prisma with SQLite (dev); schema is PostgreSQL-compatible for production
+- **SEO foundations** — JSON-LD structured data, sitemap.xml, robots.txt, canonical URLs, Open Graph
 
 ---
 
@@ -26,15 +39,14 @@ A complete web platform replacing manual WhatsApp/phone bookings with a self-ser
 | **Language** | JavaScript (ES2024) |
 | **Styling** | Vanilla CSS — custom design system, CSS variables, responsive grid |
 | **Animations** | [Framer Motion](https://www.framer.com/motion/) — scroll reveals, stagger, layout |
-| **ORM** | [Prisma](https://www.prisma.io) — type-safe DB queries, migrations |
-| **Database** | SQLite (dev) → PostgreSQL-ready (prod) |
-| **Runtime** | Node.js via Next.js API Routes |
-| **Auth** | JWT with HTTP-only cookies |
+| **ORM** | [Prisma](https://www.prisma.io) — type-safe queries, migrations |
+| **Database** | SQLite (dev) → PostgreSQL-ready schema |
+| **Auth** | JWT with `httpOnly + Secure + SameSite=Strict` cookies |
 | **Fonts** | Google Fonts — Playfair Display + Manrope via `next/font` |
-| **Images** | Next.js Image — automatic WebP/AVIF, `srcset`, lazy loading |
+| **Images** | Next.js `<Image>` — automatic WebP/AVIF, `srcset`, lazy loading |
 | **Real-time** | Server-Sent Events (SSE) for live admin notifications |
-| **Security** | Rate limiting, CSP headers, HSTS, `X-Frame-Options: DENY` |
-| **SEO** | JSON-LD `LodgingBusiness`, Open Graph, Twitter Cards, sitemap.xml |
+| **Security** | Rate limiting middleware, CSP headers, HSTS, `X-Frame-Options: DENY` |
+| **SEO** | JSON-LD `LodgingBusiness` schema, Open Graph, Twitter Cards, sitemap.xml |
 
 ---
 
@@ -47,7 +59,7 @@ src/
 │   ├── HomeClient.jsx             # Client: animations, gallery, reviews
 │   ├── layout.js                  # Root layout: fonts, metadata, JSON-LD
 │   ├── about/                     # About & Travel Guide
-│   ├── reservations/              # Booking page with dual calendar
+│   ├── reservations/              # Booking page with dual calendar picker
 │   ├── contact/                   # Contact form
 │   ├── feedback/                  # Guest review submission
 │   ├── admin/                     # Protected admin dashboard (JWT)
@@ -61,21 +73,19 @@ src/
 │       ├── feedback/              # Reviews + SSE stream
 │       ├── gallery/               # Image management
 │       ├── content/               # CMS-style content API
-│       ├── auth/                  # Login / verify
-│       └── admin/                 # Admin operations + export
+│       ├── auth/                  # Login / session verify
+│       └── admin/                 # Admin operations + CSV export
 ├── components/
 │   ├── Navbar.jsx                 # Scroll-aware, animated mobile drawer
-│   ├── GallerySection.jsx         # Filterable gallery + lightbox
+│   ├── GallerySection.jsx         # Filterable gallery with lightbox
 │   ├── BookingWidget.jsx          # Date picker + guest selector
 │   ├── AmenitiesSection.jsx       # Amenity cards from DB
 │   ├── FloatingActions.jsx        # WhatsApp FAB + scroll-to-top
-│   ├── StarRating.jsx             # Animated star rating widget
 │   ├── Tilt3D.jsx                 # CSS 3D tilt (gyroscope on mobile)
 │   ├── ScrollReveal.jsx           # IntersectionObserver scroll animations
 │   ├── LoadingScreen.jsx          # Branded intro loader (session-gated)
 │   ├── MistDewCursor.jsx          # Canvas cursor with trail effect
-│   ├── SectionDivider.jsx         # SVG mountain/forest/river dividers
-│   └── FooterSilhouette.jsx       # Animated Fourier wave footer art
+│   └── SectionDivider.jsx         # SVG mountain/forest/river dividers
 ├── lib/
 │   ├── prisma.js                  # Prisma singleton
 │   └── auth.js                    # JWT helpers
@@ -85,50 +95,41 @@ src/
 
 ---
 
-## 📸 Features Deep-Dive
+## 📸 Features In Detail
 
 ### 🗓 Booking System
-- Dual date-range calendar with blocked/available date fetching
+- Dual date-range calendar with blocked/available date fetching from DB
 - Guest picker (adults / children / infants) with validation
 - Real-time availability check via `/api/reservations/available`
 - Status flow: `pending → confirmed → cancelled`
 - Admin approve/reject with one click; CSV export for records
 
 ### 🖼 Photo Gallery
-- 14 real property photos from the Airbnb listing
+- 14 real property photos from the client's Airbnb listing
 - Category filter tabs (Farm / Rooms / Activities / Landscape)
 - Masonry grid layout with CSS `columns`
 - Full-screen lightbox with keyboard navigation (← → Esc)
-- Next.js `<Image fill>` — automatic WebP/AVIF conversion
+- Next.js `<Image fill>` — automatic WebP/AVIF, lazy loading
 - `aria-live` region for screen reader accessibility
 
 ### 🔐 Admin Dashboard
 - JWT auth with `httpOnly + Secure + SameSite=Strict` cookies
 - Real-time booking alerts via Server-Sent Events
-- Google review import — scrape and seed verified guest reviews
+- Google review import — fetch and seed verified guest reviews
 - Inline content editor — no redeploy needed for text/stat changes
 - Gallery manager — upload, tag by category, show/hide toggle
 
 ### 📈 SEO & Performance
-- `LodgingBusiness` JSON-LD (Google rich results: stars, address, price)
+- `LodgingBusiness` JSON-LD schema (Google rich results)
 - `sitemap.xml` and `robots.txt` via Next.js route handlers
 - Canonical URL, Open Graph, Twitter Card metadata
-- Hero image: 302 KB raw → **122 KB** via Next.js optimizer
-- Removed Three.js particle library → saved **1.5 MB** from bundle
-- Immutable `Cache-Control` for all uploaded images
-
-### 🎨 Animated UI Details
-- Framer Motion stagger on hero text (blur + y-axis entry)
-- `ScrollReveal` — IntersectionObserver with directional slide-in
-- 3D card tilt using pointer position (gyroscope on mobile)
-- Animated stats counters (count up on scroll into view)
-- SVG mountain/forest/river scene dividers between sections
-- Custom canvas cursor with mist/dew trail effect
-- Glassmorphism navbar: transparent → solid on scroll
+- Removed Three.js particles → saved **1.5 MB** from the JS bundle
+- Next.js image optimizer: 302 KB raw JPEG → 122 KB served
+- Immutable `Cache-Control` headers for all uploaded images
 
 ---
 
-## 🗃 Database Schema (Prisma)
+## 🗃 Database Schema
 
 ```prisma
 model Reservation {
@@ -170,13 +171,15 @@ model GalleryImage {
 | Brute force | Sliding-window rate limiter on all public POST routes |
 | MIME sniffing | `X-Content-Type-Options: nosniff` |
 | Clickjacking | `X-Frame-Options: DENY` |
-| HTTPS | `Strict-Transport-Security: max-age=31536000` |
+| HTTPS enforcement | `Strict-Transport-Security: max-age=31536000` |
 | Admin API | Server-side JWT verification on every request |
 | Secrets | `.env` and `dev.db` excluded from git (see `.env.example`) |
 
 ---
 
 ## 🚀 Running Locally
+
+Everything works end-to-end on `npm run dev`:
 
 ```bash
 # 1. Clone and install
@@ -194,9 +197,23 @@ npx prisma db seed
 
 # 4. Start dev server
 npm run dev
-# → http://localhost:3000
-# → Admin: http://localhost:3000/admin
+# → http://localhost:3000        (guest site)
+# → http://localhost:3000/admin  (admin dashboard)
 ```
+
+---
+
+## 🗺 What Isn't Implemented (and Why)
+
+The following are architecturally planned and stubbed in `.env.example` but not active. They weren't set up because the client didn't proceed to production, so billing accounts were never opened.
+
+| Feature | Service | Status |
+|---|---|---|
+| Production database | Neon / Supabase (PostgreSQL) | ⏳ Schema is PostgreSQL-compatible; swap `DATABASE_URL` to enable |
+| Image object storage | Cloudflare R2 | ⏳ Env vars stubbed; `public/uploads/` used locally for now |
+| Hosting + CI/CD | Vercel | ⏳ Would connect directly to this repo |
+| Booking confirmation emails | Resend | ⏳ Not implemented |
+| Deposit collection | Razorpay | ⏳ Not implemented |
 
 ---
 
@@ -215,26 +232,12 @@ npm run dev
 
 ---
 
-## 🗺 Roadmap / Planned (Not Yet Implemented)
+## 👤 About This Project
 
-> **Honest note for reviewers:** The items below are architecturally designed and wired up in the codebase (env vars, schema, config stubs), but not yet live — they require billing/payment details which haven't been set up since the client hasn't paid yet. The `.env.example` shows exactly what each service would need.
+Built solo as a freelance project for a real client in Sikkim, India.  
+Developed using an AI-assisted workflow — I directed planning, architecture, and iteration using ChatGPT and Claude models. The design decisions, requirements analysis, and technical choices were mine; the AI accelerated implementation.
 
-| Feature | Service | Status |
-|---|---|---|
-| Production database | Neon / Supabase (PostgreSQL) | ⏳ Prisma schema is PostgreSQL-compatible — just swap `DATABASE_URL` |
-| Image object storage | Cloudflare R2 | ⏳ R2 env vars stubbed in `.env.example`; `public/uploads/` used for now |
-| Hosting / CI-CD | Vercel | ⏳ Ready to deploy — just needs project link |
-| Booking confirmation emails | Resend / Nodemailer | ⏳ Not implemented |
-| Deposit collection | Razorpay | ⏳ Not implemented |
-
-**What IS fully working locally:** SQLite database, all API routes, admin dashboard, booking system, gallery, auth, SSE notifications — everything runs end-to-end on `npm run dev`.
-
----
-
-## 👤 Author
-
-**Kruththik** — Freelance Full-Stack Developer
-> Built solo from design to deployment for a real hospitality client in Sikkim, India.
+The client chose not to proceed to production, so the site was never deployed. The codebase represents a complete, functional prototype.
 
 ---
 
