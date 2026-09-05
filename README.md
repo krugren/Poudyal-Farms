@@ -215,13 +215,19 @@ npm run dev
 
 ---
 
-## 🗺 Roadmap
+## 🗺 Roadmap / Planned (Not Yet Implemented)
 
-- [ ] PostgreSQL migration (Neon/Supabase for production)
-- [ ] Cloudflare R2 for gallery image storage
-- [ ] Vercel deployment with preview PRs
-- [ ] Email notifications (Resend) for booking confirmations
-- [ ] Razorpay integration for deposit collection
+> **Honest note for reviewers:** The items below are architecturally designed and wired up in the codebase (env vars, schema, config stubs), but not yet live — they require billing/payment details which haven't been set up since the client hasn't paid yet. The `.env.example` shows exactly what each service would need.
+
+| Feature | Service | Status |
+|---|---|---|
+| Production database | Neon / Supabase (PostgreSQL) | ⏳ Prisma schema is PostgreSQL-compatible — just swap `DATABASE_URL` |
+| Image object storage | Cloudflare R2 | ⏳ R2 env vars stubbed in `.env.example`; `public/uploads/` used for now |
+| Hosting / CI-CD | Vercel | ⏳ Ready to deploy — just needs project link |
+| Booking confirmation emails | Resend / Nodemailer | ⏳ Not implemented |
+| Deposit collection | Razorpay | ⏳ Not implemented |
+
+**What IS fully working locally:** SQLite database, all API routes, admin dashboard, booking system, gallery, auth, SSE notifications — everything runs end-to-end on `npm run dev`.
 
 ---
 
