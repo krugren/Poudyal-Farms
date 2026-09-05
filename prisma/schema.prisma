@@ -1,0 +1,147 @@
+// Prisma Schema for Poudhyal Farms
+// Dev: SQLite  |  Prod: PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ═══════════════════════════════════════════
+// Auth
+// ═══════════════════════════════════════════
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admin")
+}
+
+// ═══════════════════════════════════════════
+// Core Business
+// ═══════════════════════════════════════════
+
+model Enquiry {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  subject   String
+  message   String
+  status    String   @default("new") // new | read | replied
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("enquiries")
+}
+
+model Reservation {
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  phone           String
+  checkIn         DateTime @map("check_in")
+  checkOut        DateTime @map("check_out")
+  guests          Int      @default(1)
+  roomType        String   @map("room_type")
+  specialRequests String   @default("") @map("special_requests")
+  status          String   @default("pending") // pending | confirmed | cancelled | completed
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([checkIn, checkOut])
+  @@index([status])
+  @@map("reservations")
+}
+
+model Feedback {
+  id              String   @id @default(uuid())
+  name            String
+  rating          Float
+  comment         String
+  avatarColor     String   @default("#2d5a3f") @map("avatar_color")
+  isVisible       Boolean  @default(true) @map("is_visible")
+  source          String   @default("local") // local | google
+  googleReviewId  String?  @unique @map("google_review_id") // prevents duplicate imports
+  authorPhoto     String?  @map("author_photo") // Google reviewer photo URL
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@index([isVisible])
+  @@index([source])
+  @@map("feedback")
+}
+
+// ═══════════════════════════════════════════
+// CMS — Content Management
+// ═══════════════════════════════════════════
+
+model SiteContent {
+  id        Int    @id @default(autoincrement())
+  page      String // home | about | reservations | feedback | contact
+  section   String // hero | highlights | story | etc.
+  key       String // title | subtitle | description | etc.
+  value     String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  @@unique([page, section, key])
+  @@map("site_content")
+}
+
+model Activity {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  iconName    String  @map("icon_name") // maps to SVG component name
+  sortOrder   Int     @default(0) @map("sort_order")
+  isActive    Boolean @default(true) @map("is_active")
+
+  @@map("activities")
+}
+
+model RoomType {
+  id            Int     @id @default(autoincrement())
+  name          String
+  slug          String  @unique
+  pricePerNight Int     @map("price_per_night")
+  description   String
+  maxGuests     Int     @default(2) @map("max_guests")
+  amenities     String  @default("[]") // JSON array of amenity strings
+  isActive      Boolean @default(true) @map("is_active")
+  sortOrder     Int     @default(0) @map("sort_order")
+
+  @@map("room_types")
+}
+
+model TravelGuide {
+  id        Int    @id @default(autoincrement())
+  title     String
+  iconName  String @map("icon_name")
+  entries   String // JSON array of {label, text} objects
+  sortOrder Int    @default(0) @map("sort_order")
+
+  @@map("travel_guide")
+}
+
+model SiteSetting {
+  key   String @id
+  value String
+
+  @@map("site_settings")
+}
+
+model GalleryImage {
+  id        Int     @id @default(autoincrement())
+  url       String
+  altText   String  @map("alt_text")
+  category  String  @default("general") // general | farm | rooms | activities | landscape
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  @@map("gallery")
+}
