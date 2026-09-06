@@ -18,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://poudhyalfarms.com'),
+  metadataBase: new URL('https://poudyal-farms.vercel.app'),
   alternates: {
-    canonical: 'https://poudhyalfarms.com',
+    canonical: 'https://poudyal-farms.vercel.app',
   },
   title: {
     default: 'Poudhyal Farms | Organic Farmstay in Sikkim',
@@ -31,7 +31,7 @@ export const metadata = {
   openGraph: {
     title: 'Poudhyal Farms | Organic Farmstay in Sikkim',
     description: 'A sanctuary of peace, organic living, and traditional hospitality amidst the misty mountains of Gangtok.',
-    url: 'https://poudhyalfarms.com',
+    url: 'https://poudyal-farms.vercel.app',
     siteName: 'Poudhyal Farms',
     locale: 'en_IN',
     type: 'website',
@@ -64,8 +64,8 @@ const schemaOrg = {
   '@type': 'LodgingBusiness',
   name: 'Poudhyal Farms',
   description: 'Premium organic farmstay with panoramic Kanchenjunga views in Gangtok, Sikkim. Three-generation family farm offering authentic Sikkimese hospitality.',
-  url: 'https://poudhyalfarms.com',
-  image: 'https://poudhyalfarms.com/uploads/gallery/pf-20260702-11.jpeg',
+  url: 'https://poudyal-farms.vercel.app',
+  image: 'https://poudyal-farms.vercel.app/uploads/gallery/pf-20260702-11.jpeg',
   telephone: '+91 95478 09775',
   priceRange: '₹₹',
   address: {
@@ -99,7 +99,7 @@ const schemaOrg = {
     { '@type': 'LocationFeatureSpecification', name: 'Smoke Alarm',            value: false },
   ],
   sameAs: [
-    'https://poudhyalfarms.com',
+    'https://poudyal-farms.vercel.app',
     'https://www.airbnb.co.in/rooms/1384121204022057341',
   ],
 };
