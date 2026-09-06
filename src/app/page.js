@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60 // ISR: rebuild at most once per minute
 
 import prisma from '@/lib/prisma';
 import HomeClient from './HomeClient';

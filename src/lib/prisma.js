@@ -1,15 +1,15 @@
 import { PrismaClient } from "@prisma/client";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { neonConfig, Pool } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
+
+// Use HTTP fetch instead of WebSocket — faster cold starts on Vercel serverless
+neonConfig.poolQueryViaFetch = true;
 
 const globalForPrisma = globalThis;
 
 function createPrismaClient() {
-  const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-  });
-  const adapter = new PrismaPg(pool);
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const adapter = new PrismaNeon(pool);
   return new PrismaClient({ adapter });
 }
 
