@@ -200,12 +200,20 @@ async function main() {
   const galleryCount = await prisma.galleryImage.count();
   if (galleryCount === 0) {
     const images = [
-      { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop', altText: 'Misty mountain sunrise in the Himalayas', category: 'landscape', sortOrder: 1 },
-      { url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop', altText: 'Mountain peaks of the Kanchenjunga range', category: 'landscape', sortOrder: 2 },
-      { url: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?q=80&w=2070&auto=format&fit=crop', altText: 'Lush green tea plantation terraces', category: 'farm', sortOrder: 3 },
-      { url: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop', altText: 'Organic vegetables growing in the farm garden', category: 'farm', sortOrder: 4 },
-      { url: 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?q=80&w=2070&auto=format&fit=crop', altText: 'Cozy farmstay cottage with mountain backdrop', category: 'rooms', sortOrder: 5 },
-      { url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop', altText: 'Golden sunset over terraced hills', category: 'landscape', sortOrder: 6 },
+      { url: '/uploads/gallery/pf-20260702-1.jpeg',  altText: 'Poudyal Farm — aerial view of the organic farmstead',       category: 'farm',       sortOrder: 1  },
+      { url: '/uploads/gallery/pf-20260702-2.jpeg',  altText: 'Lush green fields at Poudyal Farm, Sikkim',                 category: 'farm',       sortOrder: 2  },
+      { url: '/uploads/gallery/pf-20260702-3.jpeg',  altText: 'Cosy guest room with mountain views',                       category: 'rooms',      sortOrder: 3  },
+      { url: '/uploads/gallery/pf-20260702-4.jpeg',  altText: 'Farm cottage interior with wooden furnishings',             category: 'rooms',      sortOrder: 4  },
+      { url: '/uploads/gallery/pf-20260702-5.jpeg',  altText: 'Organic kitchen garden at the farmstay',                   category: 'farm',       sortOrder: 5  },
+      { url: '/uploads/gallery/pf-20260702-6.jpeg',  altText: 'Morning mist over the Sikkim hills',                       category: 'landscape',  sortOrder: 6  },
+      { url: '/uploads/gallery/pf-20260702-7.jpeg',  altText: 'Panoramic Himalayan mountain view from the farm',          category: 'landscape',  sortOrder: 7  },
+      { url: '/uploads/gallery/pf-20260702-8.jpeg',  altText: 'Trekking trail through the forest near the farm',          category: 'activities', sortOrder: 8  },
+      { url: '/uploads/gallery/pf-20260702-9.jpeg',  altText: 'Outdoor seating area with valley views',                   category: 'farm',       sortOrder: 9  },
+      { url: '/uploads/gallery/pf-20260702-10.jpeg', altText: 'Farm-fresh breakfast spread on the terrace',               category: 'farm',       sortOrder: 10 },
+      { url: '/uploads/gallery/pf-20260702-11.jpeg', altText: 'Sunset over the Kanchenjunga range from Poudyal Farm',     category: 'landscape',  sortOrder: 11 },
+      { url: '/uploads/gallery/pf-20260702-12.jpeg', altText: 'Bonfire evening with guests at the farmstay',              category: 'activities', sortOrder: 12 },
+      { url: '/uploads/gallery/pf-20260702-13.jpeg', altText: 'Birdwatching walk in the farm surroundings',               category: 'activities', sortOrder: 13 },
+      { url: '/uploads/gallery/pf-20260702-14.jpeg', altText: 'River valley view from the farm boundary',                 category: 'landscape',  sortOrder: 14 },
     ];
 
     for (const img of images) {
